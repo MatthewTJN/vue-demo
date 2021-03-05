@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./public/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <P>{{message}} {{name}}</P>
+    <button type="button" @click="show">{{btnText}}</button>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello',
+        name: 'world!',
+        btnText: '按钮'
+      },
+      methods: {
+        show: function() {
+          let name = this.name === 'Vue!' ? 'world!' : 'Vue!';
+          this.name = name;
+        }
+      }
+    })
+  </script>
+</body>
+</html>
