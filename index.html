@@ -24,14 +24,27 @@
     }
 
     var FilmItem = {
-        props: ['filmInfo'],
-        data: function() {
-            return {
-                title: this.filmInfo.original_title,
-                content: this.filmInfo.description
+        props: {
+            'filmInfo' : {
+                type: Object,
+                default: function() {
+                    return {}
+                }
             }
         },
-        template: '<div class="card"><h1>{{title}}</h1><p>{{content}}</p></div>'
+        data: function() {
+            var description = this.filmInfo.description.substring(0, 300);
+            return {
+                title: this.filmInfo.original_title,
+                content: `${description}...`
+            }
+        },
+        template: `
+            <div class="card">
+                <h1>{{title}}</h1>
+                <p>{{content}}</p>
+            </div>
+        `
     }
 
     var vm = new Vue({
