@@ -5,26 +5,60 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./src/app.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
   <script src="./public/vue.js"></script>
 </head>
 <body>
   <div id="app">
-    <P>{{message}} {{name}}</P>
-    <button type="button" @click="show">{{btnText}}</button>
+      <app-head :logo="logo"></app-head>
+      <div class="container">
+        <film-item v-for="(film, index) of films" :key="film.id" :film-info="film"></film-item>
+      </div>
   </div>
+
   <script>
+    var AppHead = {
+        props: ['logo'],
+        template: '<img :src="logo">'
+    }
+
+    var FilmItem = {
+        props: ['filmInfo'],
+        data: function() {
+            return {
+                title: this.filmInfo.original_title,
+                content: this.filmInfo.description
+            }
+        },
+        template: '<div class="card"><h1>{{title}}</h1><p>{{content}}</p></div>'
+    }
+
     var vm = new Vue({
       el: '#app',
+      components: {
+        AppHead,
+        FilmItem
+      },
       data: {
-        message: 'Hello',
-        name: 'world!',
-        btnText: '按钮'
+        logo: './public/logo.png',
+        films: []
       },
       methods: {
-        show: function() {
-          let name = this.name === 'Vue!' ? 'world!' : 'Vue!';
-          this.name = name;
-        }
+        
+      },
+      created: function() {
+        var vm = this;
+        axios.get('https://ghibliapi.herokuapp.com/films')
+        .then(function (response) {
+            var dataArr = response.data;
+            dataArr.forEach((item) => {
+                vm.films.push(item);
+            });
+        })
+        .catch(function (error) {
+          alert(error);
+        })
       }
     })
   </script>
