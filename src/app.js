@@ -23,10 +23,19 @@
         },
         template: `
             <div class="card">
-                <h1>{{title}}</h1>
+                <h1>
+                    {{title}}
+                    <span class="close" @click="handleClick">&times;</span>
+                </h1>
                 <p>{{content}}</p>
             </div>
-        `
+        `,
+        methods: {
+            handleClick: function() {
+                var fi = this;
+                this.$emit('del', fi.filmInfo.id);
+            }
+        }
     }
 
     var vm = new Vue({
@@ -40,7 +49,11 @@
             films: []
         },
         methods: {
-            
+            handleDel: function(id) {
+                this.films = this.films.filter((item)=>{
+                    return item.id !== id;
+                })
+            }
         },
         created: function() {
             var vm = this;

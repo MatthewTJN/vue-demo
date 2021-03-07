@@ -13,7 +13,7 @@
   <div id="app">
       <app-head :logo="logo"></app-head>
       <div class="container">
-        <film-item v-for="(film, index) of films" :key="film.id" :film-info="film"></film-item>
+        <film-item v-for="(film, index) of films" :key="film.id" :film-info="film" @del="handleDel"></film-item>
       </div>
   </div>
 
